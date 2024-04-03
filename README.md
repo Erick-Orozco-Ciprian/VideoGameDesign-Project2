@@ -36,6 +36,12 @@ Attack:
 Projectile:
 ![Projectile](Assets/BackGround/Details/lava_drop1_5.png)
 
+# Sandwich Ingredients
+![Ingredients](https://github.com/Erick-Orozco-Ciprian/VideoGameDesign-Project2/blob/master/Assets/Ingredients/bread.png)
+![Ingredients](https://github.com/Erick-Orozco-Ciprian/VideoGameDesign-Project2/blob/master/Assets/Ingredients/lettuce.png)
+![Ingredients](https://github.com/Erick-Orozco-Ciprian/VideoGameDesign-Project2/blob/master/Assets/Ingredients/onions.png)
+![Ingredients](https://github.com/Erick-Orozco-Ciprian/VideoGameDesign-Project2/blob/master/Assets/Ingredients/tomatoes.png)
+
 # UI
 Health: 
 ![Health](Assets/UI/Health/16px.png)
