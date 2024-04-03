@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -8,10 +9,12 @@ public class PlayerController : MonoBehaviour
     public float jumpForce = 2f;
     public Transform groundCheck;
     public LayerMask groundLayer;
-
     private Rigidbody2D rb;
     private Animator anim;
     private bool isGrounded;
+    private int lives = 3; // Number of lives
+    public Transform respawnPoint; // Point to respawn at
+
 
     void Start()
     {
@@ -62,5 +65,36 @@ public class PlayerController : MonoBehaviour
     {
         anim.ResetTrigger("jump"); // Reset the trigger to prevent looping attacks
         anim.SetTrigger("idle"); // Transition back to idle animation
+    }
+
+        private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Lava"))
+        {
+            // Player touched lava, decrease lives
+            lives--;
+            UpdateHeartsUI();
+            if (lives <= 0)
+            {
+                // No lives left, reset the level
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            }
+            else
+            {
+                // Respawn player
+                Respawn();
+            }
+        }
+    }
+
+    private void Respawn()
+    {
+        transform.position = respawnPoint.position;
+    }
+
+    private void UpdateHeartsUI()
+    {
+        // Implement logic to update hearts UI
+        // You can use UI elements like Image for hearts and update them based on remaining lives
     }
 }
