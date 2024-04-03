@@ -33,6 +33,9 @@ Attack:
 ![Attack Animation](Assets/Enemies/Boss1/Animations/attack/angel-attack-2.png)
 ![Attack Animation](Assets/Enemies/Boss1/Animations/attack/angel-attack-3.png)
 
+Projectile:
+![Projectile](Assets/BackGround/Details/lava_drop1_5.png)
+
 # UI
 Health: 
 ![Health](Assets/UI/Health/16px.png)
