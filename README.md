@@ -33,6 +33,11 @@ Attack:
 ![Attack Animation](Assets/Enemies/Boss1/Animations/attack/angel-attack-2.png)
 ![Attack Animation](Assets/Enemies/Boss1/Animations/attack/angel-attack-3.png)
 
+# UI
+Health: 
+![Health](Assets/UI/Health/16px.png)
+![Health](Assets/UI/Health/Red16px1.png)
+
 # Enviroment
 Ground:
 ![Tile](https://github.com/Erick-Orozco-Ciprian/VideoGameDesign-Project2/blob/master/Assets/BackGround/Tiles_rock/tile1.png)
