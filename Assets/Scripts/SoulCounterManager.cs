@@ -17,6 +17,10 @@ public class SoulCounterManager : MonoBehaviour
     {
         soulCount++; // Increment the soul count.
         UpdateSoulCounterUI(); // Update the UI
+
+        if (soulCount > 2) {
+            GameManager.soulCountExceedsThreshold = true;
+        }    
     }
 
     private void UpdateSoulCounterUI()
