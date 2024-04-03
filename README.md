@@ -10,6 +10,13 @@ Jump:
 Walk:
 ![Jump Animation](https://github.com/Erick-Orozco-Ciprian/VideoGameDesign-Project2/blob/master/Assets/Player/Walk.png)
 
+#Enemies
+Soul Enemy: 
+![Idle Animation](Assets/Enemies/SoulEnemy/Animations/skull_v2_1.png)
+![Idle Animation](Assets/Enemies/SoulEnemy/Animations/skull_v2_2.png)
+![Idle Animation](Assets/Enemies/SoulEnemy/Animations/skull_v2_3.png)
+![Idle Animation](Assets/Enemies/SoulEnemy/Animations/skull_v2_4.png)
+
 # Enviroment
 Ground:
 ![Tile](https://github.com/Erick-Orozco-Ciprian/VideoGameDesign-Project2/blob/master/Assets/BackGround/Tiles_rock/tile1.png)
