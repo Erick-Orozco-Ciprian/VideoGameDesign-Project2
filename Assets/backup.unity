@@ -3271,7 +3271,7 @@ GameObject:
   - component: {fileID: 1399858503}
   - component: {fileID: 1399858502}
   m_Layer: 5
-  m_Name: Tomatos
+  m_Name: Tomatoes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4247,7 +4247,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemTexts:
   - {fileID: 1151692336}
-  - {fileID: 0}
+  - {fileID: 1952813032}
+  - {fileID: 49415219}
+  - {fileID: 1399858502}
 --- !u!4 &1639051094
 Transform:
   m_ObjectHideFlags: 0
