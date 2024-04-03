@@ -12,8 +12,13 @@ public class BossAI : MonoBehaviour
     private Animator animator;
     private float lastAttackTime;
 
+    public float floatSpeed = 1.0f; // Speed of floating movement
+    public float floatHeight = 0.5f; // Height of the float
+    private Vector3 startPosition;
+
     private void Start()
     {
+        startPosition = transform.position;
         animator = GetComponent<Animator>();
     }
 
@@ -25,6 +30,9 @@ public class BossAI : MonoBehaviour
             AttackPlayer();
             lastAttackTime = Time.time;
         }
+
+        Vector3 newPosition = startPosition + Vector3.up * Mathf.Sin(Time.time * floatSpeed) * floatHeight;
+        transform.position = newPosition;
     }
 
     void AttackPlayer()
@@ -41,6 +49,26 @@ public class BossAI : MonoBehaviour
         GameObject projectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
         Projectile projectileScript = projectile.GetComponent<Projectile>();
         projectileScript.direction = (player.position - transform.position).normalized;
+    }
+
+    // This method is called when the collider of the boss collides with another collider
+    private void OnTriggerEnter(Collider other)
+    {
+        Debug.Log("Hit with collider)");
+        // Check if the collision is with the hitbox
+        if (other.gameObject.CompareTag("Hitbox"))
+        {
+            // Call a method to handle boss destruction
+            DestroyBoss();
+        }
+    }
+
+    // Method to handle boss destruction
+    private void DestroyBoss()
+    {
+        // Destroy the boss GameObject
+        Destroy(gameObject);
+        // Optionally, trigger other events or effects related to boss destruction
     }
 }
 

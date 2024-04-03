@@ -1,7 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine.SceneManagement;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -9,12 +7,13 @@ public class PlayerController : MonoBehaviour
     public float jumpForce = 2f;
     public Transform groundCheck;
     public LayerMask groundLayer;
+    public Collider2D hitboxCollider; // Reference to the hitbox collider
     private Rigidbody2D rb;
     private Animator anim;
     private bool isGrounded;
+    private bool isAttacking = false;
     private int lives = 3; // Number of lives
     public Transform respawnPoint; // Point to respawn at
-
 
     void Start()
     {
@@ -47,6 +46,39 @@ public class PlayerController : MonoBehaviour
             rb.velocity = Vector2.up * jumpForce;
             anim.SetTrigger("jump");
         }
+
+        if (Input.GetMouseButtonDown(0)) // Attack on Left Mouse Clicks.
+        {
+            anim.SetTrigger("attack"); // Trigger the attack animation
+        }
+    }
+
+    void Attack()
+    {
+        Invoke("ActivateHitbox", 0.2f); // Activate hitbox after 0.2 seconds.
+        Invoke("DeactivateHitbox", 0.4f); // Deactivate hitbox after 0.4 seconds.
+    }
+
+    void ActivateHitbox()
+    {
+        isAttacking = true;
+        hitboxCollider.enabled = true;
+    }
+
+    void DeactivateHitbox()
+    {
+        isAttacking = false;
+        hitboxCollider.enabled = false;
+    }
+
+    
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Boss"))
+        {
+            // Destroy the boss object
+            Destroy(other.gameObject);
+        }
     }
 
     void OnDrawGizmosSelected()
@@ -57,17 +89,17 @@ public class PlayerController : MonoBehaviour
 
     void AttackAnimationFinished()
     {
-        anim.ResetTrigger("attack"); // Reset the trigger to prevent looping attacks
-        anim.SetTrigger("idle"); // Transition back to idle animation
+        anim.ResetTrigger("attack"); // Reset the attack trigger
+        anim.SetTrigger("idle"); // Reset the attack trigger
     }
 
-        void JumpAnimationFinished()
+    void JumpAnimationFinished()
     {
-        anim.ResetTrigger("jump"); // Reset the trigger to prevent looping attacks
-        anim.SetTrigger("idle"); // Transition back to idle animation
+        anim.ResetTrigger("jump"); // Reset the jump trigger
+        anim.SetTrigger("idle"); // Reset the attack trigger
     }
 
-        private void OnCollisionEnter2D(Collision2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Lava"))
         {
