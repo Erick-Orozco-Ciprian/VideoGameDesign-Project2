@@ -1,3 +1,8 @@
+# Creators
+Erick Orozco - Scene Layout/Logic & Player Assets/Logic
+Sierra Morales - Enemies Assets/Logic, Boss Assets/Logic
+Liliana Royer - Ingredient Assets/Logic, GameOver Logic
+
 # Video Links for Project
 [Prototype 1](https://youtu.be/w8IWLVBEIxs)
 
