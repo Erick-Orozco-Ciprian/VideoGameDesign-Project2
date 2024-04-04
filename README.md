@@ -1,6 +1,14 @@
-## ASSETS
+# Creators
+Erick Orozco - Scene Layout/Logic & Player Assets/Logic
+Sierra Morales - Enemies Assets/Logic, Boss Assets/Logic
+Liliana Royer - Ingredient Assets/Logic, GameOver Logic
 
-# Player
+# Video Links for Project
+[Prototype 1](https://youtu.be/w8IWLVBEIxs)
+
+# ASSETS
+
+## Player
 Idle: 
 ![Idle Animation](https://github.com/Erick-Orozco-Ciprian/VideoGameDesign-Project2/blob/master/Assets/Player/Idle.png)
 
@@ -10,7 +18,7 @@ Jump:
 Walk:
 ![Jump Animation](https://github.com/Erick-Orozco-Ciprian/VideoGameDesign-Project2/blob/master/Assets/Player/Walk.png)
 
-# Enemies
+## Enemies
 Soul Enemy: 
 ![Idle Animation](Assets/Enemies/SoulEnemy/Animations/skull_v2_1.png)
 ![Idle Animation](Assets/Enemies/SoulEnemy/Animations/skull_v2_2.png)
@@ -36,12 +44,18 @@ Attack:
 Projectile:
 ![Projectile](Assets/BackGround/Details/lava_drop1_5.png)
 
-# UI
+## Sandwich Ingredients
+<img src="https://github.com/Erick-Orozco-Ciprian/VideoGameDesign-Project2/blob/master/Assets/Ingredients/bread.png" width="100" height="100">
+<img src="https://github.com/Erick-Orozco-Ciprian/VideoGameDesign-Project2/blob/master/Assets/Ingredients/lettuce.png" width="100" height="100">
+<img src="https://github.com/Erick-Orozco-Ciprian/VideoGameDesign-Project2/blob/master/Assets/Ingredients/tomatoes.png" width="100" height="100">
+<img src="https://github.com/Erick-Orozco-Ciprian/VideoGameDesign-Project2/blob/master/Assets/Ingredients/onions.png" width="100" height="100">
+
+## UI
 Health: 
 ![Health](Assets/UI/Health/16px.png)
 ![Health](Assets/UI/Health/Red16px1.png)
 
-# Enviroment
+## Enviroment
 Ground:
 ![Tile](https://github.com/Erick-Orozco-Ciprian/VideoGameDesign-Project2/blob/master/Assets/BackGround/Tiles_rock/tile1.png)
 ![Tile](https://github.com/Erick-Orozco-Ciprian/VideoGameDesign-Project2/blob/master/Assets/BackGround/Tiles_rock/tile2.png)
