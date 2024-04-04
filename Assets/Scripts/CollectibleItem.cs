@@ -36,5 +36,13 @@ public class CollectibleItem : MonoBehaviour
         //gameObject.SetActive(false);
         Destroy(gameObject);
     }
+    
+    // Method to reset the collected state of the item
+    public void ResetItem()
+    {
+        // Reset the collected state and required item state
+        isCollected = false;
+        GameManager.requiredItemCollected = false;
+    }
 }
 

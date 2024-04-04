@@ -38,5 +38,18 @@ public class ShoppingListManager : MonoBehaviour
         collectedItems.Add(itemName);
         UpdateShoppingListUI();
     }
+
+    //Undo changes if restart game
+    public void ResetShoppingList()
+    {
+        // Clear the collected items list
+        collectedItems.Clear();
+
+        // Reset the text of all items (remove strikethrough formatting)
+        foreach (TextMeshProUGUI itemText in itemTexts)
+        {
+            itemText.text = itemText.text.Replace("<s>", "").Replace("</s>", "");
+        }
+    }
 }
 

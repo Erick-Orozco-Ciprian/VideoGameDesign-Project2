@@ -1,16 +1,60 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     public ShoppingListManager shoppingListManager;
+    public SoulCounterManager soulCounterManager;
     public static bool requiredItemCollected = false;
     public static bool soulCountExceedsThreshold = false;
     public static bool enemyIsDestroyed = false;
+    public CollectibleItem[] collectibleItems;   // Reference to the CollectibleItem script
 
-    void Update() {
+    public static GameManager Instance { get; private set; }
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject); // Persist GameManager across scenes
+        }
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
+    }
+
+    void Start()
+    {
+       SceneManager.LoadScene("Level1");
+    }
+
+    void Update() 
+    {
         CheckWinConditions();
+
+        if (Input.GetKey(KeyCode.R)) 
+        {
+            //reset soul counter
+            soulCounterManager.soulCount = 0;
+
+            //reset lives??
+
+            //reset list ui
+            shoppingListManager.ResetShoppingList();    
+
+            //reset collected items
+            foreach (CollectibleItem item in collectibleItems)  //reset collected items
+            {
+                item.ResetItem(); // Call the ResetItem method for each collectible item
+            }
+
+            SceneManager.LoadScene("Level1");
+        }
     }
 
     public void CheckWinConditions()
@@ -20,14 +64,14 @@ public class GameManager : MonoBehaviour
         if (requiredItemCollected)
         {
             // Do Win Stuff
-            GameOver();
+            ShowGameOverScreen();
         }
     }
 
     // Method to be called when game over condition is met
-    public void GameOver()
+    public void ShowGameOverScreen()
     {
-        // Implement game over logic here
-        //Debug.Log("Game Over!");
+        // Show the game over screen
+        SceneManager.LoadScene("Game Over Scene");
     }
 }

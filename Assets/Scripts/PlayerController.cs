@@ -47,7 +47,7 @@ public class PlayerController : MonoBehaviour
             anim.SetTrigger("jump");
         }
 
-        if (Input.GetMouseButtonDown(0)) // Attack on Left Mouse Clicks.
+        if (Input.GetKeyDown(KeyCode.Return)) // Attack on Left Mouse Clicks.
         {
             anim.SetTrigger("attack"); // Trigger the attack animation
         }

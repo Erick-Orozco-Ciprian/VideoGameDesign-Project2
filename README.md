@@ -10,6 +10,37 @@ Jump:
 Walk:
 ![Jump Animation](https://github.com/Erick-Orozco-Ciprian/VideoGameDesign-Project2/blob/master/Assets/Player/Walk.png)
 
+# Enemies
+Soul Enemy: 
+![Idle Animation](Assets/Enemies/SoulEnemy/Animations/skull_v2_1.png)
+![Idle Animation](Assets/Enemies/SoulEnemy/Animations/skull_v2_2.png)
+![Idle Animation](Assets/Enemies/SoulEnemy/Animations/skull_v2_3.png)
+![Idle Animation](Assets/Enemies/SoulEnemy/Animations/skull_v2_4.png)
+
+Guardian 1:
+Idle:
+![Idle Animation](Assets/Enemies/Boss1/Animations/idle/angel1.png)
+![Idle Animation](Assets/Enemies/Boss1/Animations/idle/angel2.png)
+![Idle Animation](Assets/Enemies/Boss1/Animations/idle/angel3.png)
+![Idle Animation](Assets/Enemies/Boss1/Animations/idle/angel4.png)
+![Idle Animation](Assets/Enemies/Boss1/Animations/idle/angel5.png)
+![Idle Animation](Assets/Enemies/Boss1/Animations/idle/angel6.png)
+![Idle Animation](Assets/Enemies/Boss1/Animations/idle/angel7.png)
+![Idle Animation](Assets/Enemies/Boss1/Animations/idle/angel8.png)
+
+Attack:
+![Attack Animation](Assets/Enemies/Boss1/Animations/attack/angel-attack-1.png)
+![Attack Animation](Assets/Enemies/Boss1/Animations/attack/angel-attack-2.png)
+![Attack Animation](Assets/Enemies/Boss1/Animations/attack/angel-attack-3.png)
+
+Projectile:
+![Projectile](Assets/BackGround/Details/lava_drop1_5.png)
+
+# UI
+Health: 
+![Health](Assets/UI/Health/16px.png)
+![Health](Assets/UI/Health/Red16px1.png)
+
 # Enviroment
 Ground:
 ![Tile](https://github.com/Erick-Orozco-Ciprian/VideoGameDesign-Project2/blob/master/Assets/BackGround/Tiles_rock/tile1.png)
