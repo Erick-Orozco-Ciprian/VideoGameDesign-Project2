@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class EnemyCollision : MonoBehaviour
 {
-    void OnCollisionEnter2D(Collision2D collision)
+    void OnTriggerEnter2D(Collider2D other)
     {
-        // Check if the enemy has collided with the player
-        if (collision.gameObject.CompareTag("Player"))
+        // Check if the enemy has triggered with the player
+        if (other.gameObject.CompareTag("Player"))
         {
             // Find the SoulCounterManager in the scene and increment the soul count
             FindObjectOfType<SoulCounterManager>().IncreaseSoulCount();

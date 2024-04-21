@@ -1,24 +1,26 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Events;
 
 public class PlayerController : MonoBehaviour
 {
+    private bool isAirborne = false;
+    private bool isGrounded = true;
+    private bool isAttacking = false;
     public float speed = 2f;
     public float jumpForce = 2f;
-    public Transform groundCheck;
-    public LayerMask groundLayer;
-    public Collider2D hitboxCollider; // Reference to the hitbox collider
     private Rigidbody2D rb;
     private Animator anim;
-    private bool isGrounded;
-    private bool isAttacking = false;
     private int lives = 3; // Number of lives
     public Transform respawnPoint; // Point to respawn at
-
+    public PlayerHealth playerHealth;
+    public LayerMask groundLayer;
+    public float raycastDistance = 0.4f; // Distance of the raycast
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+        playerHealth = GetComponent<PlayerHealth>();
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
     }
 
@@ -26,52 +28,64 @@ public class PlayerController : MonoBehaviour
     {
         // Movement
         float moveInput = Input.GetAxisRaw("Horizontal");
+        anim.SetFloat("Speed", Mathf.Abs(moveInput));
         rb.velocity = new Vector2(moveInput * speed, rb.velocity.y);
 
+        // Cast a ray downwards from the player's position
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, raycastDistance, groundLayer);
+
+        // Check if the ray hits any collider in the ground layer
+        if (hit.collider != null)
+        {
+            isGrounded = true;
+        }
+        else
+        {
+            isGrounded = false;
+        }
+        
         // Flip sprite based on movement direction
         if (moveInput != 0)
+        {
             transform.localScale = new Vector3(Mathf.Sign(moveInput), 1, 1);
+        }
 
-        // Jumping
-        isGrounded = Physics2D.OverlapCircle(groundCheck.position, 0.1f, groundLayer);
-
-        // Animation
-        if (moveInput != 0 && isGrounded)
-            anim.SetBool("isRunning", true);
-        else
-            anim.SetBool("isRunning", false);
-
-        if (isGrounded && Input.GetKeyDown(KeyCode.Space))
-        {
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded) {
             rb.velocity = Vector2.up * jumpForce;
-            anim.SetTrigger("jump");
+            anim.SetBool("isJumping", true);
         }
 
-        if (Input.GetKeyDown(KeyCode.Return)) // Attack on Left Mouse Clicks.
+        if (!isGrounded)
         {
-            anim.SetTrigger("attack"); // Trigger the attack animation
+            isAirborne = true;
+        }     
+
+        // Can only jump if touching grounding layer(s) and the jump key has been pressed.
+        if (isAirborne)
+        {
+            if (isGrounded) {
+                OnLanding();
+            }
+        }
+
+        if (Input.GetKeyUp(KeyCode.Return) && !isAttacking) {
+            anim.SetBool("isAttacking", true);
+            isAttacking = true;
         }
     }
 
-    void Attack()
+    void AttackAnimationFinished()
     {
-        Invoke("ActivateHitbox", 0.2f); // Activate hitbox after 0.2 seconds.
-        Invoke("DeactivateHitbox", 0.4f); // Deactivate hitbox after 0.4 seconds.
-    }
-
-    void ActivateHitbox()
-    {
-        isAttacking = true;
-        hitboxCollider.enabled = true;
-    }
-
-    void DeactivateHitbox()
-    {
+        anim.SetBool("isAttacking", false); // Reset the attack trigger
         isAttacking = false;
-        hitboxCollider.enabled = false;
     }
 
-    
+    void OnLanding()
+    {
+        isAirborne = false;
+        anim.SetBool("isJumping", false);
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Boss"))
@@ -81,41 +95,13 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(groundCheck.position, 0.1f);
-    }
-
-    void AttackAnimationFinished()
-    {
-        anim.ResetTrigger("attack"); // Reset the attack trigger
-        anim.SetTrigger("idle"); // Reset the attack trigger
-    }
-
-    void JumpAnimationFinished()
-    {
-        anim.ResetTrigger("jump"); // Reset the jump trigger
-        anim.SetTrigger("idle"); // Reset the attack trigger
-    }
-
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Lava"))
         {
             // Player touched lava, decrease lives
-            lives--;
-            UpdateHeartsUI();
-            if (lives <= 0)
-            {
-                // No lives left, reset the level
-                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-            }
-            else
-            {
-                // Respawn player
-                Respawn();
-            }
+            playerHealth.TakeDamage(1);
+            Respawn();
         }
     }
 
@@ -124,9 +110,8 @@ public class PlayerController : MonoBehaviour
         transform.position = respawnPoint.position;
     }
 
-    private void UpdateHeartsUI()
+    public void Death()
     {
-        // Implement logic to update hearts UI
-        // You can use UI elements like Image for hearts and update them based on remaining lives
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }

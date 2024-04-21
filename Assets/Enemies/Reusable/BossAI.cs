@@ -50,25 +50,5 @@ public class BossAI : MonoBehaviour
         Projectile projectileScript = projectile.GetComponent<Projectile>();
         projectileScript.direction = (player.position - transform.position).normalized;
     }
-
-    // This method is called when the collider of the boss collides with another collider
-    private void OnTriggerEnter(Collider other)
-    {
-        Debug.Log("Hit with collider)");
-        // Check if the collision is with the hitbox
-        if (other.gameObject.CompareTag("Hitbox"))
-        {
-            // Call a method to handle boss destruction
-            DestroyBoss();
-        }
-    }
-
-    // Method to handle boss destruction
-    private void DestroyBoss()
-    {
-        // Destroy the boss GameObject
-        Destroy(gameObject);
-        // Optionally, trigger other events or effects related to boss destruction
-    }
 }
 

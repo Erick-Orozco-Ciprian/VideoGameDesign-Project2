@@ -10,29 +10,28 @@ public class PlayerHealth : MonoBehaviour
     public Image[] hearts;
     public Sprite fullHeart;
     public Sprite emptyHeart;
+    public PlayerController playerController;
 
     void Start()
     {
         currentHealth = maxHealth;
+        playerController = GetComponent<PlayerController>();
         UpdateHealthUI();
     }
 
     public void TakeDamage(int damage)
     {
-        Debug.Log("Current Health before damage: " + currentHealth); // Add this line
         currentHealth -= damage;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
-        Debug.Log("Current Health after damage: " + currentHealth); // Add this line
         UpdateHealthUI();
 
         if (currentHealth <= 0)
         {
-            Debug.Log("Player is dead!");
-            // Handle player death here (like restart level or game over screen)
+            playerController.Death();
         }
     }
 
-    void UpdateHealthUI()
+    public void UpdateHealthUI()
     {
         for (int i = 0; i < hearts.Length; i++)
         {
