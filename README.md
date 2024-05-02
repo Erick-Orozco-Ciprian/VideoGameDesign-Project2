@@ -4,7 +4,7 @@ Sierra Morales - Enemies Assets/Logic, Boss Assets/Logic
 Liliana Royer - Ingredient Assets/Logic, GameOver Logic
 
 # Website Link
-[Website](https://youtu.be/w8IWLVBEIxs](https://team-16-video-game-design.github.io/VideoGameDesign-Project2/))
+[Website](https://team-16-video-game-design.github.io/VideoGameDesign-Project2/)
 
 # Video Links for Project
 [Prototype 1](https://youtu.be/w8IWLVBEIxs)
