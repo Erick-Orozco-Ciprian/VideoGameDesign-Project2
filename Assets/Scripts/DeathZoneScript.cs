@@ -12,7 +12,7 @@ public class DeathZoneScript : MonoBehaviour
         // Check if the collided object is the player
         if (collision.gameObject.CompareTag("Player"))
         {
-            // Call RestartGame function from GameManager
+            // Call ShowGameOverScreen function from GameManager
             gameManager.ShowGameOverScreen();
         }
     }

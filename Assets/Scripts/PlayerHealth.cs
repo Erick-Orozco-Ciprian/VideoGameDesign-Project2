@@ -47,5 +47,9 @@ public class PlayerHealth : MonoBehaviour
             hearts[i].enabled = i < maxHealth;
         }
     }
-}
 
+    public void resetHealth() {
+        currentHealth = maxHealth;
+        UpdateHealthUI();
+    }
+}

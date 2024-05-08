@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public ShoppingListManager shoppingListManager;
+    public PlayerHealth playerHealth;
     public SoulCounterManager soulCounterManager; // Assuming this is needed for other parts of your game
     public static bool requiredItemCollected = false; // Flag to check if bread has been collected
     public static bool soulCountExceedsThreshold = false; // Assuming this is needed for other parts of your game
@@ -49,18 +50,27 @@ public class GameManager : MonoBehaviour
         // If the required item (bread) has been collected, trigger the game over
         if (requiredItemCollected)
         {
-            ShowGameOverScreen();
+            ShowWinScreen();
         }
     }
 
-    public void ShowGameOverScreen()
+    public void ShowWinScreen()
     {
         // Load the game over or ending scene
         SceneManager.LoadScene("EndScene"); 
     }
 
+        public void ShowGameOverScreen()
+    {
+        // Load the game over or ending scene
+        SceneManager.LoadScene("Game Over Scene"); 
+    }
+
     private void ResetGame()
     {
+        // Reload the initial level scene to start over
+        SceneManager.LoadScene("Level1");
+
         //reset soul counter if applicable
         if (soulCounterManager != null)
         {
@@ -74,12 +84,17 @@ public class GameManager : MonoBehaviour
         }
 
         //reset collected items
-        foreach (CollectibleItem item in collectibleItems)
-        {
-            item.ResetItem(); // Call the ResetItem method for each collectible item
+        if (collectibleItems != null) {
+            foreach (CollectibleItem item in collectibleItems)
+            {
+                item.ResetItem(); // Call the ResetItem method for each collectible item
+            }
         }
 
-        // Reload the initial level scene to start over
-        SceneManager.LoadScene("Level1");
+        if (playerHealth != null) 
+        {
+            // reset health
+            playerHealth.resetHealth();
+        }
     }
 }
