@@ -1,55 +1,71 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
 
 public class ShoppingListManager : MonoBehaviour
 {
-    public TextMeshProUGUI [] itemTexts; // Array of Text elements representing the items in the menu
-
-    private List<string> collectedItems; // List of collected item names
+    public TextMeshProUGUI[] itemTexts; // Array of Text elements representing the items in the menu
+    public static List<string> collectedItems = new List<string>(); // Static list of collected item names
 
     void Start()
     {
-        // Initialize the collectedItems list
-        collectedItems = new List<string>();
-
-        // Update the menu UI at the start
-        UpdateShoppingListUI();
+        // Initialize the shopping list UI at the start
+        InitializeShoppingListUI();
     }
 
-    // Update the menu UI to reflect the collected items
-    void UpdateShoppingListUI()
+    // Initialize the UI to hide or show items based on collected status
+    void InitializeShoppingListUI()
     {
+        // Loop through each item text element
         foreach (TextMeshProUGUI itemText in itemTexts)
         {
-            // If the item is collected, cross it off
+            // Check if the item has been collected and update the UI accordingly
             if (collectedItems.Contains(itemText.text))
             {
+                // If collected, show the item as crossed off
                 itemText.text = "<s>" + itemText.text + "</s>";
+            }
+            else
+            {
+                // If not collected, ensure the text is normal (useful for resetting)
+                itemText.text = itemText.text.Replace("<s>", "").Replace("</s>", "");
             }
         }
     }
 
-    // Method to collect an item
+    // Method to collect an item and update the UI
     public void CollectItem(string itemName)
     {
-        collectedItems.Add(itemName);
-        UpdateShoppingListUI();
+        // Only add the item if it hasn't already been collected
+        if (!collectedItems.Contains(itemName))
+        {
+            collectedItems.Add(itemName); // Add to the static list
+            UpdateShoppingListUI(); // Update the UI to reflect the new collection
+        }
     }
 
-    //Undo changes if restart game
+    // Reset the shopping list to initial state
     public void ResetShoppingList()
     {
-        // Clear the collected items list
-        collectedItems.Clear();
+        collectedItems.Clear(); // Clear the static list of collected items
+        InitializeShoppingListUI(); // Re-initialize the UI to reflect the reset
+    }
 
-        // Reset the text of all items (remove strikethrough formatting)
+    // Update the shopping list UI to reflect the collected items
+    void UpdateShoppingListUI()
+    {
         foreach (TextMeshProUGUI itemText in itemTexts)
         {
-            itemText.text = itemText.text.Replace("<s>", "").Replace("</s>", "");
+            // Cross off the item if it has been collected
+            if (collectedItems.Contains(itemText.text))
+            {
+                itemText.text = "<s>" + itemText.text + "</s>";
+            }
+            else
+            {
+                // If not collected, ensure the text is normal
+                itemText.text = itemText.text.Replace("<s>", "").Replace("</s>", "");
+            }
         }
     }
 }
-
