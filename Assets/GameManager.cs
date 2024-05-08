@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    private bool gameWin = false;
     public ShoppingListManager shoppingListManager;
     public SoulCounterManager soulCounterManager;
     public static bool requiredItemCollected = false;
@@ -35,25 +36,39 @@ public class GameManager : MonoBehaviour
 
     void Update() 
     {
-        CheckWinConditions();
+        
 
-        if (Input.GetKey(KeyCode.R)) 
+        if (Input.GetKey(KeyCode.R) ) 
         {
+            Debug.Log("Reset");
+
+            SceneManager.LoadScene("Level1");
+            Debug.Log("3"); 
+
+            requiredItemCollected = false;
+
             //reset soul counter
             soulCounterManager.soulCount = 0;
 
             //reset lives??
 
             //reset list ui
-            shoppingListManager.ResetShoppingList();    
+            shoppingListManager.ResetShoppingList();  
+            Debug.Log("1");  
 
             //reset collected items
             foreach (CollectibleItem item in collectibleItems)  //reset collected items
             {
                 item.ResetItem(); // Call the ResetItem method for each collectible item
             }
+            Debug.Log("2"); 
 
-            SceneManager.LoadScene("Level1");
+            gameWin = false; 
+
+        }
+
+        if (!gameWin) {
+            CheckWinConditions();
         }
     }
 
@@ -64,7 +79,9 @@ public class GameManager : MonoBehaviour
         if (requiredItemCollected)
         {
             // Do Win Stuff
+            gameWin = true;
             ShowGameOverScreen();
+            Debug.Log("required item collected");
         }
     }
 
