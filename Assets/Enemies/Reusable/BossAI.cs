@@ -15,6 +15,8 @@ public class BossAI : MonoBehaviour
     public float floatSpeed = 1.0f; // Speed of floating movement
     public float floatHeight = 0.5f; // Height of the float
     private Vector3 startPosition;
+    public int bossHealth = 5;
+    public GameObject breadObject; // Assign the bread prefab in the Unity Editor
 
     private void Start()
     {
@@ -33,22 +35,27 @@ public class BossAI : MonoBehaviour
 
         Vector3 newPosition = startPosition + Vector3.up * Mathf.Sin(Time.time * floatSpeed) * floatHeight;
         transform.position = newPosition;
+
+        if (bossHealth < 0) {
+            Death();
+        }
     }
 
     void AttackPlayer()
     {
         // Trigger attack animation
         animator.SetTrigger("attack");
-        // Method to shoot projectile
-        ShootProjectile();
-    }
-
-    void ShootProjectile()
-    {
         // Instantiate and configure the projectile
         GameObject projectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
         Projectile projectileScript = projectile.GetComponent<Projectile>();
         projectileScript.direction = (player.position - transform.position).normalized;
+    }
+
+    void Death() 
+    {
+        breadObject.SetActive(true);
+        // Destroy the boss object
+        Destroy(gameObject);
     }
 }
 
