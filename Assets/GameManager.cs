@@ -6,13 +6,13 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public ShoppingListManager shoppingListManager;
-    public SoulCounterManager soulCounterManager;
-    public static bool requiredItemCollected = false;
-    public static bool soulCountExceedsThreshold = false;
-    public static bool enemyIsDestroyed = false;
+    public SoulCounterManager soulCounterManager; // Assuming this is needed for other parts of your game
+    public static bool requiredItemCollected = false; // Flag to check if bread has been collected
+    public static bool soulCountExceedsThreshold = false; // Assuming this is needed for other parts of your game
+    public static bool enemyIsDestroyed = false; // Assuming this is needed for other parts of your game
     public CollectibleItem[] collectibleItems;   // Reference to the CollectibleItem script
 
-    public static GameManager Instance { get; private set; }
+    public static GameManager Instance { get; private set; } // Singleton pattern
 
     private void Awake()
     {
@@ -30,48 +30,56 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-       //SceneManager.LoadScene("Level1");
+        // Optionally load the initial level or perform other start tasks
+        //SceneManager.LoadScene("Level1");
     }
 
     void Update() 
     {
-        CheckWinConditions();
+        CheckWinConditions(); // Check if the game should end based on collected items
 
         if (Input.GetKey(KeyCode.R)) 
         {
-            //reset soul counter
-            soulCounterManager.soulCount = 0;
-
-            //reset lives??
-
-            //reset list ui
-            shoppingListManager.ResetShoppingList();    
-
-            //reset collected items
-            foreach (CollectibleItem item in collectibleItems)  //reset collected items
-            {
-                item.ResetItem(); // Call the ResetItem method for each collectible item
-            }
-
-            SceneManager.LoadScene("Level1");
+            ResetGame(); // Reset the game when R is pressed
         }
     }
 
     public void CheckWinConditions()
     {
-        // If all conditions are true, trigger game over
-        //if (requiredItemCollected && soulCountExceedsThreshold && enemyIsDestroyed)
+        // If the required item (bread) has been collected, trigger the game over
         if (requiredItemCollected)
         {
-            // Do Win Stuff
             ShowGameOverScreen();
         }
     }
 
-    // Method to be called when game over condition is met
     public void ShowGameOverScreen()
     {
-        // Show the game over screen
-        SceneManager.LoadScene("Game Over Scene");
+        // Load the game over or ending scene
+        SceneManager.LoadScene("EndScene"); 
+    }
+
+    private void ResetGame()
+    {
+        //reset soul counter if applicable
+        if (soulCounterManager != null)
+        {
+            soulCounterManager.soulCount = 0;
+        }
+
+        // Reset the shopping list UI
+        if (shoppingListManager != null)
+        {
+            shoppingListManager.ResetShoppingList();
+        }
+
+        //reset collected items
+        foreach (CollectibleItem item in collectibleItems)
+        {
+            item.ResetItem(); // Call the ResetItem method for each collectible item
+        }
+
+        // Reload the initial level scene to start over
+        SceneManager.LoadScene("Level1");
     }
 }

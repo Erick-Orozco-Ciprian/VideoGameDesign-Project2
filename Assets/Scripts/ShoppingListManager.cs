@@ -41,6 +41,12 @@ public class ShoppingListManager : MonoBehaviour
         {
             collectedItems.Add(itemName); // Add to the static list
             UpdateShoppingListUI(); // Update the UI to reflect the new collection
+            
+            // Check if the collected item is Bread
+            if (itemName == "Bread")
+            {
+                GameManager.requiredItemCollected = true; 
+            }
         }
     }
 
