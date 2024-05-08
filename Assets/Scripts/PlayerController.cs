@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     private Animator anim;
     private int lives = 3; // Number of lives
     public Transform respawnPoint; // Point to respawn at
+    public GameManager gameManager;
     public PlayerHealth playerHealth;
     public LayerMask groundLayer;
     public LayerMask projectileJumpLayer;
@@ -148,6 +149,7 @@ public class PlayerController : MonoBehaviour
 
     public void Death()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        gameManager.ShowGameOverScreen();
     }
 }
