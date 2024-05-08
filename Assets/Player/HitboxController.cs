@@ -10,8 +10,10 @@ public class HitboxController : MonoBehaviour
     private float canDeflectTimer = 0f;
     private bool isCoolingDown = false;
     private bool canDeflect = false;
-
     private Rigidbody2D rb;
+    private GameObject projectileObject; // Variable to store the collided object
+    private bool hasDeflected = false; // Flag to track if projectile has been deflected
+    private bool reset = false; // Flag to track if projectile has been deflected
 
     void Start()
     {
@@ -22,9 +24,13 @@ public class HitboxController : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0) && !isCoolingDown)
+        if (Input.GetKeyUp(KeyCode.Return) && !isCoolingDown)
         {
             canDeflect = true;
+        }
+
+        if (canDeflect)
+        {
             canDeflectTimer -= Time.deltaTime;
             if (canDeflectTimer <= 0f)
             {
@@ -42,26 +48,48 @@ public class HitboxController : MonoBehaviour
                 isCoolingDown = false;
             }
         }
-    }
-  
 
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.CompareTag("Projectile"))
+        
+        if (reset)
         {
-            //Debug.Log("Projectile Detected!");
+            hasDeflected = false;
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        if (other.CompareTag("Projectile") && !hasDeflected)
+        {
+            reset = false;
             // Handle projectile collision if left mouse button clicked and not cooling down
             if (canDeflect)
             {
-                Debug.Log("Projectile Deflected!");
-
-                // Calculate reflection direction using Vector3.Reflect
                 Rigidbody2D projectileRB = other.GetComponent<Rigidbody2D>();
-                Vector2 reflectionDirection = Vector2.Reflect(projectileRB.velocity.normalized, transform.up);
-
-                // Apply reflection force to the projectile
-                projectileRB.velocity = reflectionDirection.normalized * projectileRB.velocity.magnitude;
+                Vector2 reflectionDirection = -projectileRB.velocity.normalized;
+                projectileObject = other.gameObject;
+                Projectile projectileScript = projectileObject.GetComponent<Projectile>();
+                projectileScript.ChangeTarget(reflectionDirection.normalized);
+                projectileScript.canHurtBoss = true;
+                hasDeflected = true; // Set the flag to true after deflection
             }
+        }
+
+        else if (other.CompareTag("FireEnemy") && !hasDeflected)
+        {
+            Animator enemyAnimator = other.GetComponent<Animator>();
+            if (enemyAnimator != null && canDeflect)
+            {
+                enemyAnimator.SetBool("isDying", true);
+            }
+        }
+    }
+
+    
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.CompareTag("Projectile") && hasDeflected)
+        {
+            reset = true;
         }
     }
 }

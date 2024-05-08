@@ -9,10 +9,16 @@ public class Projectile : MonoBehaviour
     public Vector3 direction;
     private bool hasCollided = false; // Flag to ensure single collision
     private Rigidbody2D rb;
+    private Vector2 moveDirection; // Direction of movement
+    public bool canHurtBoss;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+
+        // Set the initial direction of movement towards the original target
+        //moveDirection = (originalTargetTransform.position - rb.position).normalized;
+        moveDirection = direction.normalized;
     }
     void Update()
     {
@@ -22,7 +28,10 @@ public class Projectile : MonoBehaviour
     void FixedUpdate()
     {
         // Apply velocity to the Rigidbody
-        rb.velocity = direction.normalized * speed;
+        //rb.velocity = direction.normalized * speed;
+
+        // Apply velocity to the Rigidbody
+        rb.velocity = moveDirection * speed;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -38,5 +47,28 @@ public class Projectile : MonoBehaviour
 
             Destroy(gameObject); // Destroy the projectile after hitting
         }
+
+        if (!hasCollided && collision.CompareTag("Boss") && canHurtBoss)
+        {
+            Debug.Log("Hit boss!");
+            hasCollided = true; // Set flag to true on first collision
+            // Accessing the Boss component from the collided object
+            BossAI bossAI = collision.GetComponent<BossAI>();
+            // Check if the boss component exists
+            if (bossAI != null)
+            {
+                // Decrease the boss health
+                bossAI.bossHealth -= 1;
+                Debug.Log(bossAI.bossHealth);
+            }
+            Destroy(gameObject); // Destroy the projectile after hitting
+        }
+    }
+
+    // Call this method when you want to change the target
+    public void ChangeTarget(Vector2 newDirection)
+    {
+        // Calculate new direction towards the new target
+        moveDirection = newDirection;
     }
 }

@@ -8,7 +8,8 @@ TagManager:
   - Hitbox
   - Boss
   - Projectile
-  - Ground
+  - FireEnemy
+  - SlowGround
   layers:
   - Default
   - TransparentFX

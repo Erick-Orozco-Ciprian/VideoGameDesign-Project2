@@ -30,7 +30,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-       SceneManager.LoadScene("Level1");
+       //SceneManager.LoadScene("Level1");
     }
 
     void Update() 

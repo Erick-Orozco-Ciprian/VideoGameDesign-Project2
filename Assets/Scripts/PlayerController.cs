@@ -16,6 +16,10 @@ public class PlayerController : MonoBehaviour
     public PlayerHealth playerHealth;
     public LayerMask groundLayer;
     public float raycastDistance = 0.4f; // Distance of the raycast
+    [SerializeField]
+    private bool slow = false;
+    [SerializeField]
+    private float slowGroundFactor = 1f;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -26,11 +30,14 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        // Movement
-        float moveInput = Input.GetAxisRaw("Horizontal");
-        anim.SetFloat("Speed", Mathf.Abs(moveInput));
-        rb.velocity = new Vector2(moveInput * speed, rb.velocity.y);
+        if (slow) 
+        {
+            slowGroundFactor = 0.5f;
+        } else {
+            slowGroundFactor = 1.0f;
+        }
 
+        float moveInput = Input.GetAxisRaw("Horizontal");
         // Cast a ray downwards from the player's position
         RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, raycastDistance, groundLayer);
 
@@ -38,12 +45,22 @@ public class PlayerController : MonoBehaviour
         if (hit.collider != null)
         {
             isGrounded = true;
+            if (hit.collider.CompareTag("SlowGround")) 
+            {
+                slow = true;
+            } else {
+                slow = false;
+            }
         }
         else
         {
             isGrounded = false;
         }
         
+        // Movement
+        anim.SetFloat("Speed", Mathf.Abs(moveInput));
+        rb.velocity = new Vector2((moveInput * slowGroundFactor) * speed, rb.velocity.y);
+
         // Flip sprite based on movement direction
         if (moveInput != 0)
         {
@@ -102,6 +119,11 @@ public class PlayerController : MonoBehaviour
             // Player touched lava, decrease lives
             playerHealth.TakeDamage(1);
             Respawn();
+        }
+        else if (collision.gameObject.CompareTag("FireEnemy"))
+        {
+            // Player collided with a FireEnemy, decrease lives
+            playerHealth.TakeDamage(1);
         }
     }
 
