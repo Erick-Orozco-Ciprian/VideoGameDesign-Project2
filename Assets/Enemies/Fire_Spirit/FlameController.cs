@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class FlameController : MonoBehaviour
 {
+    public bool facingLeft;
     private Animator animator;
     private bool isAttacking = false;
     public GameObject soulEnemyPrefab; // Reference to the prefab
@@ -29,18 +30,30 @@ public class FlameController : MonoBehaviour
             yield return new WaitForSeconds(idleDuration);
 
             // Attack and move left
-            AttackAndMove(-2f);
-            yield return new WaitForSeconds(attackDuration);
 
-            // Idle
-            animator.SetBool("isAttacking", false);
-            yield return new WaitForSeconds(idleDuration);
+            if (facingLeft) {
+                AttackAndMove(-2f);
+                yield return new WaitForSeconds(attackDuration);
 
-            // Attack and move right
-            AttackAndMove(2f);
-            yield return new WaitForSeconds(attackDuration);
+                // Idle
+                animator.SetBool("isAttacking", false);
+                yield return new WaitForSeconds(idleDuration);
 
+                // Attack and move right
+                AttackAndMove(2f);
+                yield return new WaitForSeconds(attackDuration);
+            } else {
+                AttackAndMove(2f);
+                yield return new WaitForSeconds(attackDuration);
 
+                // Idle
+                animator.SetBool("isAttacking", false);
+                yield return new WaitForSeconds(idleDuration);
+
+                // Attack and move right
+                AttackAndMove(-2f);
+                yield return new WaitForSeconds(attackDuration);
+            }
         }
     }
 

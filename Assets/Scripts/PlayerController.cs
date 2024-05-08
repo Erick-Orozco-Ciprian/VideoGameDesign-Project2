@@ -8,13 +8,14 @@ public class PlayerController : MonoBehaviour
     private bool isGrounded = true;
     private bool isAttacking = false;
     public float speed = 2f;
-    public float jumpForce = 2f;
+    public float jumpForce = 5f;
     private Rigidbody2D rb;
     private Animator anim;
     private int lives = 3; // Number of lives
     public Transform respawnPoint; // Point to respawn at
     public PlayerHealth playerHealth;
     public LayerMask groundLayer;
+    public LayerMask projectileJumpLayer;
     public float raycastDistance = 0.4f; // Distance of the raycast
     [SerializeField]
     private bool slow = false;
@@ -40,6 +41,8 @@ public class PlayerController : MonoBehaviour
         float moveInput = Input.GetAxisRaw("Horizontal");
         // Cast a ray downwards from the player's position
         RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, raycastDistance, groundLayer);
+        RaycastHit2D projectileJumpHit = Physics2D.Raycast(transform.position, Vector2.down, 0.5f, projectileJumpLayer);
+
 
         // Check if the ray hits any collider in the ground layer
         if (hit.collider != null)
@@ -57,6 +60,17 @@ public class PlayerController : MonoBehaviour
             isGrounded = false;
         }
         
+        if (projectileJumpHit.collider != null)
+        {
+            // Print the tag of the collided object for debugging
+            Debug.Log("Collided with tag: " + projectileJumpHit.collider.tag);
+            
+            if (projectileJumpHit.collider.CompareTag("PlantProjectilePush")) 
+            {
+                rb.velocity = Vector2.up * jumpForce * 2; // Apply an upward force
+            }
+        }
+
         // Movement
         anim.SetFloat("Speed", Mathf.Abs(moveInput));
         rb.velocity = new Vector2((moveInput * slowGroundFactor) * speed, rb.velocity.y);

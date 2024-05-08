@@ -69,11 +69,10 @@ public class HitboxController : MonoBehaviour
                 projectileObject = other.gameObject;
                 Projectile projectileScript = projectileObject.GetComponent<Projectile>();
                 projectileScript.ChangeTarget(reflectionDirection.normalized);
-                projectileScript.canHurtBoss = true;
+                projectileScript.canHurt = true;
                 hasDeflected = true; // Set the flag to true after deflection
             }
         }
-
         else if (other.CompareTag("FireEnemy") && !hasDeflected)
         {
             Animator enemyAnimator = other.GetComponent<Animator>();
@@ -82,12 +81,42 @@ public class HitboxController : MonoBehaviour
                 enemyAnimator.SetBool("isDying", true);
             }
         }
+        else if (other.CompareTag("PlantProjectileHurt") && !hasDeflected)
+        {
+            reset = false;
+            // Handle projectile collision if left mouse button clicked and not cooling down
+            if (canDeflect)
+            {
+                Rigidbody2D projectileRB = other.GetComponent<Rigidbody2D>();
+                Vector2 reflectionDirection = -projectileRB.velocity.normalized;
+                projectileObject = other.gameObject;
+                PlantProjectileScript plantProjectileScript = projectileObject.GetComponent<PlantProjectileScript>();
+                plantProjectileScript.ChangeTarget(reflectionDirection.normalized);
+                plantProjectileScript.canHurt = true;
+                hasDeflected = true; // Set the flag to true after deflection
+            }
+        }
+        else if (other.CompareTag("PlantEnemy") && !hasDeflected)
+        {
+            reset = false;
+            // Handle projectile collision if left mouse button clicked and not cooling down
+            if (canDeflect)
+            {
+                projectileObject = other.gameObject;
+                PlantSpiritController plantSpiritController = projectileObject.GetComponent<PlantSpiritController>();
+                plantSpiritController.health = 0;
+                hasDeflected = true; // Set the flag to true after deflection
+            }
+        }
     }
 
-    
     private void OnTriggerExit2D(Collider2D other)
     {
         if (other.CompareTag("Projectile") && hasDeflected)
+        {
+            reset = true;
+        }
+        if (other.CompareTag("PlantProjectileHurt") && hasDeflected)
         {
             reset = true;
         }

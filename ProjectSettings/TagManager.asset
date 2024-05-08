@@ -10,6 +10,10 @@ TagManager:
   - Projectile
   - FireEnemy
   - SlowGround
+  - Ground
+  - PlantEnemy
+  - PlantProjectileHurt
+  - PlantProjectilePush
   layers:
   - Default
   - TransparentFX
@@ -17,8 +21,8 @@ TagManager:
   - Ground
   - Water
   - UI
+  - ProjectileJumpLayer
   - Background
-  - 
   - 
   - 
   - 

@@ -10,7 +10,7 @@ public class Projectile : MonoBehaviour
     private bool hasCollided = false; // Flag to ensure single collision
     private Rigidbody2D rb;
     private Vector2 moveDirection; // Direction of movement
-    public bool canHurtBoss;
+    public bool canHurt;
 
     void Start()
     {
@@ -48,7 +48,7 @@ public class Projectile : MonoBehaviour
             Destroy(gameObject); // Destroy the projectile after hitting
         }
 
-        if (!hasCollided && collision.CompareTag("Boss") && canHurtBoss)
+        if (!hasCollided && collision.CompareTag("Boss") && canHurt)
         {
             Debug.Log("Hit boss!");
             hasCollided = true; // Set flag to true on first collision

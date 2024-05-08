@@ -6,13 +6,18 @@ public class PlantSpiritController : MonoBehaviour
 {
     public Transform player;
     public float attackRange = 5f;
-    public GameObject projectilePrefab;
+    public GameObject projectilePrefab1; // First projectile prefab
+    public GameObject projectilePrefab2; // Second projectile prefab
     public GameObject soulEnemyPrefab;
     public float attackRate = 1f; // Attacks per second
     private Animator animator;
     private float lastAttackTime;
     private Vector3 startPosition;
     private bool canAttack;
+    public int health = 5;
+
+    // Flag to toggle between projectile prefabs
+    private bool useProjectilePrefab1 = true;
 
     private void Start()
     {
@@ -30,16 +35,21 @@ public class PlantSpiritController : MonoBehaviour
             lastAttackTime = Time.time;
         }
 
-        // if (player.position.x < transform.position.x)
-        // {
-        //     // Player is on the left side
-        //     transform.localScale = new Vector3(-1, 1, 1);
-        // }
-        // else
-        // {
-        //     // Player is on the right side
-        //     transform.localScale = new Vector3(1, 1, 1);
-        // }  }
+        if (health <= 0)
+        {
+            Disappear();
+        }
+        
+        if (player.position.x < transform.position.x)
+        {
+            // Player is on the left side
+            transform.localScale = new Vector3(-1, 1, 1);
+        }
+        else
+        {
+            // Player is on the right side
+            transform.localScale = new Vector3(1, 1, 1);
+        } 
     }
 
     public void attackAnimationFinished() {
@@ -48,12 +58,25 @@ public class PlantSpiritController : MonoBehaviour
 
     void AttackPlayer()
     {
-        // Instantiate and configure the projectile
+        // Instantiate and configure the projectile based on the boolean flag
         animator.SetBool("isAttacking", true);
-        // Instantiate and configure the projectile slightly above the enemy
-        GameObject projectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
-        Projectile projectileScript = projectile.GetComponent<Projectile>();
-        projectileScript.direction = (player.position - transform.position).normalized;
+        GameObject projectile;
+        if (useProjectilePrefab1)
+        {
+            projectile = Instantiate(projectilePrefab1, transform.position, Quaternion.identity);
+            PlantProjectileScript plantProjectileScript = projectile.GetComponent<PlantProjectileScript>();
+            plantProjectileScript.direction = (player.position - transform.position).normalized;
+        }
+        else
+        {
+            projectile = Instantiate(projectilePrefab2, transform.position, Quaternion.identity);
+            PlantProjectilePushScript plantProjectilePushScript = projectile.GetComponent<PlantProjectilePushScript>();
+            plantProjectilePushScript.direction = (player.position - transform.position).normalized;
+        }
+
+
+        // Toggle the flag for the next shot
+        useProjectilePrefab1 = !useProjectilePrefab1;
     }
 
     public void Disappear()
@@ -66,4 +89,3 @@ public class PlantSpiritController : MonoBehaviour
         // Destroy(gameObject); // Destroy the GameObject
     }
 }
-
