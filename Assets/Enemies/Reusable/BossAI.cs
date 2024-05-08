@@ -36,7 +36,7 @@ public class BossAI : MonoBehaviour
         Vector3 newPosition = startPosition + Vector3.up * Mathf.Sin(Time.time * floatSpeed) * floatHeight;
         transform.position = newPosition;
 
-        if (bossHealth < 0) {
+        if (bossHealth <= 0) {
             Death();
         }
     }
